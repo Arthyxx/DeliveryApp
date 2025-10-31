@@ -3,25 +3,31 @@ import Colors from '../constants/Colors';
 import { Product } from '../types';
 import { Link } from 'expo-router';
 
-export const defaultPizzaImage = 'https://notjustdev-dummy.s3.us-east-2.amazonaws.com/food/default.png';
+export const defaultPizzaImage =
+  'https://notjustdev-dummy.s3.us-east-2.amazonaws.com/food/default.png';
 
 type ProductListItemProps = {
-    product: Product;
+  product: Product;
 };
 
 const ProductListItem = ({ product }: ProductListItemProps) => {
   return (
-    <Link href={`/menu/${product.id}`} asChild>
-        <Pressable style={styles.container}>
-        <Image source={{ uri: product.image || defaultPizzaImage }} 
-        style={styles.image}
-        resizeMode='contain'
+    <Link
+      asChild
+      href={{
+        pathname: '/menu/[id]',            // se sua tela estiver em (tabs): '/(tabs)/menu/[id]'
+        params: { id: String(product.id) } // id precisa ser string na URL
+      }}
+    >
+      <Pressable style={styles.container}>
+        <Image
+          source={{ uri: product.image || defaultPizzaImage }}
+          style={styles.image}
+          resizeMode="contain"
         />
-        
         <Text style={styles.title}>{product.name}</Text>
-        <Text>${product.price}</Text>
-        
-        </Pressable>
+        <Text style={styles.price}>${product.price}</Text>
+      </Pressable>
     </Link>
   );
 };
